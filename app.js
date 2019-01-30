@@ -3,14 +3,12 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
-import { userRouter } from "./router";
+import userRouter from "./routers/userRouter";
+import videoRouter from "./routers/videoRouter";
+import globalRouter from "./routers/globalRouter";
 
 //const express = require('express'); 최신자바스크립트로 import로 변경
 const app = express();
-
-const handleHome = (req, res) => res.send('Hello from home');
-
-const handleProfile = (req, res) => res.send("You are on my profile");
 
 
 // 접속이 있을때 위에서부터 아래로 실행됨
@@ -22,12 +20,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(helmet());
 app.use(morgan("dev"));
 
-
-app.get("/", handleHome);
-
-app.get("/profile", handleProfile);
-
+app.use("/", globalRouter);
 app.use("/user", userRouter);
+app.use("/video", videoRouter);
 
 // app에게 4000포트를 리슨하라고 한다.
 // 리스닝을 시작할때 handleListening함수를 실행한다
