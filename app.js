@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
+import routes from "./routes";
 
 //const express = require('express'); 최신자바스크립트로 import로 변경
 const app = express();
@@ -20,9 +21,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(helmet());
 app.use(morgan("dev"));
 
-app.use("/", globalRouter);
-app.use("/user", userRouter);
-app.use("/video", videoRouter);
+app.use(routes.home, globalRouter);
+app.use(routes.users, userRouter);
+app.use(routes.videos, videoRouter);
 
 // app에게 4000포트를 리슨하라고 한다.
 // 리스닝을 시작할때 handleListening함수를 실행한다
