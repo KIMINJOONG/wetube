@@ -12,9 +12,11 @@ import routes from "./routes";
 const app = express();
 
 
+
 // 접속이 있을때 위에서부터 아래로 실행됨
 // 원하는 만큼 middleware를 선언후 route를 실행
 //
+app.set("view engine", "pug");
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); 
