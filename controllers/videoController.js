@@ -37,8 +37,21 @@ export const postUpload = async(req, res) => {
 
 };
 
-export const videoDetail = (req, res) => 
-    res.render("videoDetail", { pageTitle: "VideoDetail"});
+export const videoDetail = async(req, res) => {
+    //req.params.id와 같다.
+    const {
+        params: {id}
+    } = req;
+    try {
+        const video = await Video.findById(id);
+        res.render("videoDetail", { pageTitle: "VideoDetail", video });
+    } catch(error) {
+        console.log(error);
+        res.redirect(routes.home);
+    }
+
+};
+    
 export const editVideo = (req, res) => res.render("editVideo", { pageTitle: "editVideo"});
 export const deleteVideo = (req, res) => res.render("deleteVideo", { pageTitle: "deleteVideo"});
 
