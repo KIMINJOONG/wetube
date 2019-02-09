@@ -4,6 +4,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import passport from "passport";
+import session from "express-session";
 import { localsMiddleware } from "./middlewares";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
@@ -33,6 +34,11 @@ app.use(morgan("dev"));
 // passport는 초기화(initialize)되고
 // 그다음엔 passport가 제 스스로 쿠키를 들여다봐서, 그 쿠키 정보에 해당하는 사용자를 찾아줌.
 // 그리고 passport는 자기가 찾은 그 사용자를 요청(request)의 object, 즉 req.user로 만들어줌!
+app.use(session({
+    secret: process.env.COOKIE_SECRET,
+    resave: true,
+    saveUninitialized: false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(localsMiddleware);
