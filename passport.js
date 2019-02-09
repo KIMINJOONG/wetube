@@ -1,7 +1,7 @@
 import passport from "passport";
 import User from "./models/User";
 
-passport.use(User.createStratgey());
+passport.use(User.createStrategy());
 
 // 여 passport야 쿠키에는 오직 user.id만 담아서 보내도록해 라고 말해주는것과 같음
 passport.serializeUser(User.serializeUser());
