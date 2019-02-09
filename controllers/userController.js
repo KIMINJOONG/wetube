@@ -42,9 +42,15 @@ export const postLogin = passport.authenticate("local", {
     successRedirect: routes.home
 });
 
+export const githubLogin = passport.authenticate()
+
+export const githubLoginCallback = (accessToken, refreshToekn, profile, cb) => {
+    console.log(accessToken, refreshToekn, profile, cb);
+}
 
 export const logout = (req, res) => {
     //To Do: Process Log out
+    req.logout();
     res.redirect(routes.home);
 };
 export const users = (req, res) => res.render("users", { pageTitle: "Join" });
