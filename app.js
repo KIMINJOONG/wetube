@@ -4,7 +4,9 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import passport from "passport";
+import mongoose from "mongoose";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import { localsMiddleware } from "./middlewares";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
@@ -16,7 +18,7 @@ import "./passport";
 //const express = require('express'); 최신자바스크립트로 import로 변경
 const app = express();
 
-
+const CokieStore = MongoStore(session);
 
 // 접속이 있을때 위에서부터 아래로 실행됨
 // 원하는 만큼 middleware를 선언후 route를 실행
@@ -37,7 +39,8 @@ app.use(morgan("dev"));
 app.use(session({
     secret: process.env.COOKIE_SECRET,
     resave: true,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: new CokieStore({mongooseConnection: mongoose.connection})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
