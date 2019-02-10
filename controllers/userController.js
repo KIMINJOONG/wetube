@@ -44,12 +44,32 @@ export const postLogin = passport.authenticate("local", {
 
 export const githubLogin = passport.authenticate("github");
 
-export const githubLoginCallback = (accessToken, refreshToekn, profile, cb) => {
-    console.log(accessToken, refreshToekn, profile, cb);
+// accessToekn과 refreshToken은 사용하지 않으니 
+// _, __로 처리 순서만 맞게 변수를 주면되니까 상관없다.
+export const githubLoginCallback = async(_, __, profile, cb) => {
+    const { _json: { id, avatar_url, name, email} } = profile;
+    try{
+        const user = await User.findOne({email});
+        if(user) {
+            user.githubId = id;
+            user.save();
+            return cb(null, user);
+        }
+        const newUser = await User.create({
+            email,
+            name,
+            githubId: id,
+            avatarUrl: avatar_url
+        });
+        return cb(null, newUser);
+    
+    }catch(error) {
+        return cb(error);
+    }
 }
 
 export const postGithubLogIn = (req, res) => {
-    res.send(routes.home);
+    res.redirect(routes.home);
 }
 
 export const logout = (req, res) => {
