@@ -47,7 +47,7 @@ export const githubLogin = passport.authenticate("github");
 // accessToekn과 refreshToken은 사용하지 않으니 
 // _, __로 처리 순서만 맞게 변수를 주면되니까 상관없다.
 export const githubLoginCallback = async(_, __, profile, cb) => {
-    const { _json: { id, avatar_url, name, email} } = profile;
+    const { _json: { id, avatar_url: avatarUrl, name, email} } = profile;
     try{
         const user = await User.findOne({email});
         if(user) {
@@ -59,7 +59,7 @@ export const githubLoginCallback = async(_, __, profile, cb) => {
             email,
             name,
             githubId: id,
-            avatarUrl: avatar_url
+            avatarUrl
         });
         return cb(null, newUser);
     
@@ -78,7 +78,13 @@ export const logout = (req, res) => {
     res.redirect(routes.home);
 };
 export const users = (req, res) => res.render("users", { pageTitle: "Join" });
-export const userDetail = (req, res) => res.render("userDetail", { pageTitle: "Join" });
+
+export const getMe = (req, res) => {
+    res.render("userDetail", { pageTitle: "User Detail", user:req.user });
+}
+
+export const userDetail = (req, res) => 
+    res.render("userDetail", { pageTitle: "User Detail" });
 export const editProfile = (req, res) => res.render("editProfile", { pageTitle: "Join" });
 export const changePassword = (req, res) => res.render("changePassword", { pageTitle: "Join" });
 
