@@ -42,10 +42,14 @@ export const postLogin = passport.authenticate("local", {
     successRedirect: routes.home
 });
 
-export const githubLogin = passport.authenticate()
+export const githubLogin = passport.authenticate("github");
 
 export const githubLoginCallback = (accessToken, refreshToekn, profile, cb) => {
     console.log(accessToken, refreshToekn, profile, cb);
+}
+
+export const postGithubLogIn = (req, res) => {
+    res.send(routes.home);
 }
 
 export const logout = (req, res) => {
