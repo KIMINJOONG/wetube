@@ -109,7 +109,7 @@ export const users = (req, res) => res.render("users", { pageTitle: "Join" });
 
 export const getMe = (req, res) => {
     res.render("userDetail", { pageTitle: "User Detail", user:req.user });
-}
+};
 
 export const userDetail = async(req, res) => {
     const { params: { id }} = req;
@@ -142,5 +142,24 @@ export const postEditProfile = async(req, res) => {
 
 }
 
-export const changePassword = (req, res) => res.render("changePassword", { pageTitle: "Join" });
+export const getChangePassword = (req, res) => 
+    res.render("changePassword", { pageTitle: "Chagne Password" });
+
+export const postChangePassword = async(req, res) => {
+    const {
+        body : {oldPassword, newPassword, newPassword1}
+    } = req;
+    try {
+        if(newPassword !== newPassword1) {
+            res.status(400);
+            res.redirect(`/users${routes.changePassword}`);
+            return;
+        }
+        await req.user.changePassword(oldPassword, newPassword);
+        res.redirect(routes.me);
+    }catch(error) {
+        res.status(400);
+        res.redirect(`/users${routes.changePassword}`);
+    }
+};
 
