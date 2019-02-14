@@ -11,6 +11,7 @@ import { localsMiddleware } from "./middlewares";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
+import apiRouter from "./routers/apiRouter";
 import routes from "./routes";
 
 import "./passport";
@@ -49,6 +50,7 @@ app.use(localsMiddleware);
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
+app.use(routes.api, apiRouter);
 
 // app에게 4000포트를 리슨하라고 한다.
 // 리스닝을 시작할때 handleListening함수를 실행한다
