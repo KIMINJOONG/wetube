@@ -155,4 +155,4 @@ export const postAddComment = async(req,res) => {
     }finally {
         res.end();
     }
-}
+};
