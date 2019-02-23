@@ -14,7 +14,6 @@
 		"tunnel": "lt --port 4000",
 		"start": "node build/init.js",
 		"prestart": "npm run build"
-		
 	},
 	"author": "KIMINJOONG",
 	"license": "ISC",
