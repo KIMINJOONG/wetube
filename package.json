@@ -6,13 +6,12 @@
 	"scripts": {
 		"dev:server": "nodemon --exec babel-node init.js src/init.js --delay 2 --ignore 'scss' --ignore 'static' ",
 		"dev:assets": "cd src && webpack -w --mode=development",
-		"build:assets": "cd src && webpack -w --mode=production",
+		"build:assets": "WEBPACK_ENV=production webpack --config src/webpack.config.js",
 		"build:server": "babel src --out-dir build --ignore 'src/assets','src/static','src/webpack.config.js'",
-		"copyAll": "cp -R src/static build && cp -R src/views build",
-		"build": "npm run build:server && npm run build:assets && npm run copyAll",
 		"prebuild": "rm -rf build",
+		"build": "npm run build:server && npm run build:assets && cp -R src/static build && cp -R src/views build",
 		"tunnel": "lt --port 4000",
-		"start": "PRODUCTION=true node build/init.js"
+		"start": "npm run build && PRODUCTION=true node build/init.js"
 	},
 	"author": "KIMINJOONG",
 	"license": "ISC",
