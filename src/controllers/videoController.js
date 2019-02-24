@@ -1,6 +1,7 @@
 import routes from "../routes";
 import Video from "../models/Video";
 import Comment from "../models/Comment";
+import User from "../models/User";
 
 export const home = async(req, res) => {
     //database에 모든 video를 갖고오라는 의미
@@ -104,10 +105,13 @@ export const deleteVideo = async(req, res) => {
     } = req;
     try{
         const video = await Video.findById(id);
+        const user = await User.findById({_id : video.creator});
         if(video.creator != req.user.id) {
             throw Error();
         } else {
             await Video.findOneAndRemove({_id:id});
+            await user.videos.pull(id);
+            user.save();
         }
         
     }catch(error) {
@@ -168,7 +172,6 @@ export const postRemoveCommnet = async(req,res) => {
         const video = await Video.findById(id);
         const comment = await Comment.findOne({ _id: commentId});
         if(String(comment.creator) === user.id) {
-            console.log("들어옴");
             await Comment.findOneAndRemove({_id: commentId});
             // video안에 comments objectId배열중 해당 코멘트아이디배열을 삭제!
             video.comments.pull(commentId);
