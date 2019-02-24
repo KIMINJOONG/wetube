@@ -34,6 +34,6 @@ block content
                 each comment in video.comments.reverse()
                     li
                         if loggedUser && String(comment.creator) === loggedUser.id
-                            button
+                            button.removeCommentBtn(value=`${comment.id}`)
                                 i.fas.fa-times-circle
                         span=comment.text
