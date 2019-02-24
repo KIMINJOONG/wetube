@@ -105,7 +105,11 @@ export const deleteVideo = async(req, res) => {
     } = req;
     try{
         const video = await Video.findById(id);
-        if(video.creator !== req.user.id) {
+        console.log(video.creator);
+        console.log(req.user.id);
+        console.log(video.creator != req.user.id);
+        if(video.creator != req.user.id) {
+            console.log("if문 들어옴");
             throw Error();
         } else {
             await Video.findOneAndRemove({_id:id});

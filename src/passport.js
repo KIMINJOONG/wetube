@@ -3,6 +3,7 @@ import GithubStrategy from "passport-github";
 import FacebookStrategy from "passport-facebook";
 import User from "./models/User";
 import { githubLoginCallback, facebookLoginCallback } from "./controllers/userController";
+import dotenv from "dotenv";
 
 import routes from "./routes";
 
@@ -11,7 +12,7 @@ passport.use(User.createStrategy());
 passport.use(new GithubStrategy({
     clientID: process.env.GH_ID,
     clientSecret: process.env.GH_SECRET,
-    callbackURL: `http://localhost:4000${routes.githubCallback}`
+    callbackURL: process.env.PRODUCTION ? `http://ec2-13-125-110-124.ap-northeast-2.compute.amazonaws.com${routes.githubCallback}` : `http://localhost:4000${routes.githubCallback}`
     }, 
     githubLoginCallback
     )
