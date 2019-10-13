@@ -12,7 +12,7 @@ passport.use(User.createStrategy());
 passport.use(new GithubStrategy({
     clientID: process.env.GH_ID,
     clientSecret: process.env.GH_SECRET,
-    callbackURL: process.env.PRODUCTION ? `http://ec2-13-125-110-124.ap-northeast-2.compute.amazonaws.com${routes.githubCallback}` : `http://localhost:4000${routes.githubCallback}`
+    callbackURL: process.env.PRODUCTION ? `https://test.kohubi.me${routes.githubCallback}` : `http://localhost:4000${routes.githubCallback}`
     }, 
     githubLoginCallback
     )
@@ -22,7 +22,7 @@ passport.use(new GithubStrategy({
 passport.use(new FacebookStrategy({
     clientID: process.env.FB_ID,
     clientSecret: process.env.FB_SECRET,
-    callbackURL: `https://soft-mayfly-45.localtunnel.me${routes.facebookCallback}`,
+    callbackURL: `https://test.kohubi.me${routes.facebookCallback}`,
     profileFields: ["id", "displayName", "photos", "email"],
     scope: ["public_profile", "email"]
     },
